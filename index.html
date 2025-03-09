@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Image</title>
+    <link rel="stylesheet" href="./css/app.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+    <section class="p-[50px]">
+        <h1 class="text-red-500 font-semibold text-[32px] text-center uppercase">Tạo ảnh chúc mừng sinh nhật</h1>
+
+        <div class="grid items-center gap-[20px]">
+            <p class="text-[24px] font-semibold py-[20px]">Mẫu ảnh</p>
+
+            <div class="flex flex-wrap items-center justify-center gap-[20px]">
+                <!-- Ảnh dành cho nam -->
+                <div class="grid gap-[20px]">
+                    <div id="capture-male" class="relative w-[90vw] max-w-[400px] h-auto flex justify-center items-center">
+                        <img src="/image/1_create.png" class="w-full h-full object-cover" alt="">
+                    
+                        <p id="birthday-text-male" class="absolute top-[43%] text-[14px] font-semibold text-white italic text-center w-[80%]">
+                            Điện thoại Tuấn Anh kính <br> 
+                            chúc <span id="name-male">Anh Hồng An</span> có một ngày <br> 
+                            sinh nhật vui vẻ, hạnh phúc <br> 
+                            và tràn đầy ý nghĩa.
+                        </p>
+                    </div>                                     
+
+                    <p class="py-[10px]">Mẫu dành cho nam.</p>
+                    <input id="input-male" type="text" class="p-[10px] border-[2px] border-red-500 w-full" placeholder="Điền tên khách hàng...">
+                    <button onclick="downloadImage('male')" class="bg-yellow-300 py-[10px] px-[20px] rounded-[10px]">Tạo ảnh</button>
+                </div>
+
+                <!-- Ảnh dành cho nữ -->
+                <div class="grid gap-[20px]">
+                    <div id="capture-female" class="relative w-[90vw] max-w-[400px] h-auto flex justify-center items-center">
+                        <img src="/image/2_create.png" class="w-full h-full object-cover" alt="">
+                    
+                        <p id="birthday-text-female" class="absolute top-[46.5%] text-[14px] font-semibold text-[#631f1f] italic text-center w-[80%]">
+                            Điện thoại Tuấn Anh kính <br> 
+                            chúc <span id="name-female">Chị Hồng An</span> có một ngày <br> 
+                            sinh nhật vui vẻ, hạnh phúc <br> 
+                            và tràn đầy ý nghĩa.
+                        </p>
+                    </div>
+
+                    <p class="py-[10px]">Mẫu dành cho nữ.</p>
+                    <input id="input-female" type="text" class="p-[10px] border-[2px] border-red-500 w-full" placeholder="Điền tên khách hàng...">
+                    <button onclick="downloadImage('female')" class="bg-yellow-300 py-[10px] px-[20px] rounded-[10px]">Tạo ảnh</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        function updateText(gender) {
+            const input = document.getElementById(`input-${gender}`);
+            const nameSpan = document.getElementById(`name-${gender}`);
+            let name = input.value.trim();
+
+            if (!name) {
+                nameSpan.innerText = gender === 'male' ? 'Anh Hồng An' : 'Chị Hồng An';
+                return;
+            }
+
+            // Xác định giới tính dựa trên tên (nếu có chữ cái đầu in hoa)
+            const firstChar = name.charAt(0).toLowerCase();
+            if (['a', 'â', 'ă', 'b', 'd', 'đ', 'e', 'g', 'h', 'k', 'l', 'm', 'q', 'r', 's', 't', 'v', 'x'].includes(firstChar)) {
+                name = `Anh ${name}`;
+            } else {
+                name = `Chị ${name}`;
+            }
+
+            nameSpan.innerText = name;
+        }
+
+        document.getElementById("input-male").addEventListener("input", () => updateText("male"));
+        document.getElementById("input-female").addEventListener("input", () => updateText("female"));
+
+        function downloadImage(gender) {
+            const captureDiv = document.getElementById(`capture-${gender}`);
+
+            html2canvas(captureDiv, {
+                backgroundColor: null, 
+                scale: 3, 
+                useCORS: true, 
+            }).then(canvas => {
+                const link = document.createElement("a");
+                link.download = `ChucMungSinhNhat-${gender}.png`;
+                link.href = canvas.toDataURL("image/png");
+                link.click();
+            });
+        }
+    </script>
+</body>
+</html>
