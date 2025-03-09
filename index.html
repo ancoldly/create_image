@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Image</title>
+    <title>Tạo ảnh chúc mừng sinh nhật</title>
     <link rel="stylesheet" href="./css/app.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -66,15 +66,8 @@
                 return;
             }
 
-            // Xác định giới tính dựa trên tên (nếu có chữ cái đầu in hoa)
-            const firstChar = name.charAt(0).toLowerCase();
-            if (['a', 'â', 'ă', 'b', 'd', 'đ', 'e', 'g', 'h', 'k', 'l', 'm', 'q', 'r', 's', 't', 'v', 'x'].includes(firstChar)) {
-                name = `Anh ${name}`;
-            } else {
-                name = `Chị ${name}`;
-            }
-
-            nameSpan.innerText = name;
+            // Gán danh xưng theo mẫu đã chọn
+            nameSpan.innerText = (gender === 'male' ? 'anh' : 'chị') + ` ${name}`;
         }
 
         document.getElementById("input-male").addEventListener("input", () => updateText("male"));
